@@ -12,20 +12,19 @@ class ViewController: UIViewController {
 
     lazy var game = Concentration(numberOfPairsOfCards: (self.cardButtons.count + 1) / 2)
 
-    var flipCount = 0 {
-        didSet {
-            flipCountLabel.text = "Flips: \(flipCount)"
-        }
-    }
+    var flipCount = 0
 
     @IBOutlet weak var flipCountLabel: UILabel!
 
     @IBOutlet var cardButtons: [UIButton]!
 
     @IBAction func touchCard(_ sender: UIButton) {
-        flipCount += 1
         if let cardNumber = cardButtons.index(of: sender) {
             game.chooseCard(at: cardNumber)
+            if game.flipCount > flipCount {
+                flipCount = game.flipCount
+                flipCountLabel.text = "Flips: \(flipCount)"
+            }
             updateViewFromModel()
         }
     }
